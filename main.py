@@ -20,19 +20,25 @@ def print_array(array):
 def counting(array):
     print()
     max_value = array[0][0]
+    max_j = 0
+    max_i = 0
+    row_count = 0
     for i in range(len(array)):
         for j in range(len(array[i])):
-            e = array[1][j]
-            if e > max_value:
+            e = array[i][j]
+            if e >= max_value:
                 max_value = e
+                max_j = j
+                max_i = i
+            row_count = i
     print("Максимум второй строки: %d" % (max_value))
-    print()
-    return max_value
+    print("Координаты максимума: ["+str(max_i)+"]"+"["+str(max_j)+"]")
+    return max_value, max_j,max_i,row_count
 
 def main():
     array = random_array(4,5)
     print_array(array)
-    max_value = counting(array)
+    max_value,max_j,max_i,row_count = counting(array)
     while True:
         print()
         print("1. Заполнить массив случайными числами;")
@@ -42,16 +48,15 @@ def main():
         if key == '1':
             array = random_array(4, 5)
             print_array(array)
-            max_value = counting(array)
+            max_value,max_j,max_i,row_count = counting(array)
         elif key == '2':
             print()
-            sum = 0
             for i in range(len(array)):
-                sum = array[0][1] + array[1][1] + array[2][1] + array[3][1]
-                while True:
+                for j in range(len(array[i])):
                     try:
-                        index_max = array[1].index(max_value)  # положение макс в строке
-                        array[1][array[1].index(max_value)] = sum
+                        if (max_i == row_count):
+                            array[i][0]*=2
+                            break
                     except ValueError:
                         break
             print_array(array)
@@ -59,4 +64,5 @@ def main():
             exit(0)
 
 
-main()
+if __name__ == '__main__':
+    main()
